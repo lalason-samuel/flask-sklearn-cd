@@ -9,7 +9,7 @@ pool: myAgentPool
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
-  azureServiceConnectionId: 'mysvcconn'
+  azureServiceConnectionId: 'c9f1e8cb-24a3-405b-9046-bf2b34125d0c'
   
   # Web app name
   webAppName: 'flasksklearnbysami'
