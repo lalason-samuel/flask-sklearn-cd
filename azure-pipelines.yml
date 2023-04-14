@@ -28,6 +28,7 @@ stages:
     pool: myAgentPool
     steps:
     - script: |
+        sudo apt-get -y install zip
         sudo apt-get install python3-pip
         python3 -m pip install --upgrade pip
         python3 -m pip install setup
