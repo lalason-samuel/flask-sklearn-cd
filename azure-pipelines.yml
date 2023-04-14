@@ -51,3 +51,28 @@ stages:
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'myStep 5 - Upload package'
       artifact: drop
+
+- stage: Deploy
+  displayName: Deploy stage
+  jobs:
+  - job: deploy
+    dependsOn: buildandtest
+    condition: succeeded()
+
+    pool: myAgentPool
+    
+    steps:
+      # download the artifact drop from the previous job
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        source: 'current'
+        artifact: 'drop'
+        path: '$(Pipeline.Workspace)'
+
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: '$(azureServiceConnectionId)'
+        appType: webAppLinux
+        appName: '$(webAppName)'
+        resourceGroupName: <resource group name>
+        package: '$(Pipeline.Workspace)/**/*.zip'
