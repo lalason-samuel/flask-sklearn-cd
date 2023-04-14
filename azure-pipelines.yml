@@ -38,7 +38,7 @@ stages:
         export PATH=$HOME/.local/bin:$PATH
         make install
       workingDirectory: $(projectRoot)
-      displayName: 'myStep 1'
+      displayName: 'myStep 1 - Install dependance'
     - task: ArchiveFiles@2
       displayName: 'myStep 4 - Archive files'
       inputs:
