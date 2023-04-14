@@ -37,9 +37,21 @@ stages:
         export PATH=$HOME/.local/bin:$PATH
         make install
       workingDirectory: $(projectRoot)
-      displayName: 'Run install tests'
+      displayName: 'myStep 1'
+    
+    - script: |
+        export PATH=$HOME/.local/bin:$PATH
+        make install
+      workingDirectory: $(projectRoot)
+      displayName: 'myStep 2'
+
+    - script: |
+        export PATH=$HOME/.local/bin:$PATH
+        make install
+      workingDirectory: $(projectRoot)
+      displayName:  'myStep 3 - Run lint tests'
     - task: ArchiveFiles@2
-      displayName: 'Archive files'
+      displayName: 'myStep 4 - Archive files'
       inputs:
         rootFolderOrFile: '$(projectRoot)'
         includeRootFolder: false
@@ -48,5 +60,5 @@ stages:
         replaceExistingArchive: true
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      displayName: 'Upload package'
+      displayName: 'myStep 5 - Upload package'
       artifact: drop
