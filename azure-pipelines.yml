@@ -55,9 +55,16 @@ stages:
 - stage: Deploy
   displayName: Deploy stage
   jobs:
+  - job: Validation
+    pool: myAgentPool
+    steps:
+    - script: |
+        # Add your validation tests here
+        echo "Running validation tests"
+      displayName: 'myStep 1 - Run validation tests'
   - job: deploy
     pool: myAgentPool
-    dependsOn: BuildJob
+    dependsOn: Validation, BuildJob
     steps:
     - task: DownloadPipelineArtifact@2
       inputs:
