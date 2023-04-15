@@ -32,13 +32,6 @@ stages:
       displayName: 'Run a multi-line script'
     
     - script: |
-        sudo apt-get -y install zip
-        sudo apt-get install python3-pip
-        python3 -m pip install --upgrade pip
-        python3 -m pip install setup
-        python3 -m pip install -r requirements.txt
-      workingDirectory: $(projectRoot)
-    - script: |
         export PATH=$HOME/.local/bin:$PATH
         make install
       workingDirectory: $(projectRoot)
