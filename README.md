@@ -1,3 +1,5 @@
+[![Python application test with Github Actions](https://github.com/lalasonsamuel/flask-sklearn-cd/actions/workflows/pylint.yml/badge.svg)](https://github.com/lalasonsamuel/flask-sklearn-cd/actions/workflows/pylint.yml)
+
 # Overview
 
 <TODO: complete this with an overview of your project>
