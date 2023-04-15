@@ -56,12 +56,9 @@ stages:
   displayName: Deploy stage
   jobs:
   - job: deploy
-    dependsOn: BuildJob
-
     pool: myAgentPool
-    
+    dependsOn: BuildJob
     steps:
-      # download the artifact drop from the previous job
     - task: DownloadPipelineArtifact@2
       inputs:
         source: 'current'
