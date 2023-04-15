@@ -73,5 +73,5 @@ stages:
         azureSubscription: '$(azureServiceConnectionId)'
         appType: webAppLinux
         appName: '$(webAppName)'
-        resourceGroupName: <resource group name>
+        resourceGroupName: Azuredevops
         package: '$(Pipeline.Workspace)/**/*.zip'
