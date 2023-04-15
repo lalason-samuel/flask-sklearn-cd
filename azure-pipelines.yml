@@ -36,3 +36,16 @@ stages:
         make install
       workingDirectory: $(projectRoot)
       displayName: 'myStep 1 - Install dependance'
+    
+    - task: ArchiveFiles@2
+      displayName: 'myStep 4 - Archive files'
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
+
+    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      displayName: 'myStep 5 - Upload package'
+      artifact: drop
