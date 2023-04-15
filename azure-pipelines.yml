@@ -64,7 +64,7 @@ stages:
       displayName: 'myStep 1 - Run validation tests'
   - job: deploy
     pool: myAgentPool
-    dependsOn: Validation, BuildJob
+    dependsOn: Validation
     steps:
     - task: DownloadPipelineArtifact@2
       inputs:
