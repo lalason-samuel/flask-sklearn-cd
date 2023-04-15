@@ -52,28 +52,24 @@ stages:
 
 - stage: Deploy
   displayName: Deploy stage
+  dependsOn: Build
   jobs:
-  - job: Validation
+  - deployment: DeployJob
     pool: myAgentPool
-    steps:
-    - script: |
-        # Add your validation tests here
-        echo "Running validation tests"
-      displayName: 'myStep 1 - Run validation tests'
-  - job: deploy
-    pool: myAgentPool
-    dependsOn: Validation
-    steps:
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        source: 'current'
-        artifact: 'drop'
-        path: '$(Pipeline.Workspace)'
+    environment: '$(environmentName)'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: 'current'
+              artifact: 'drop'
+              path: '$(Pipeline.Workspace)'
 
-    - task: AzureWebApp@1
-      inputs:
-        azureSubscription: '$(azureServiceConnectionId)'
-        appType: webAppLinux
-        appName: '$(webAppName)'
-        resourceGroupName: Azuredevops
-        package: '$(Pipeline.Workspace)/**/*.zip'
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: $(azureServiceConnectionId)
+              appType: webAppLinux
+              appName: $(webAppName)
+              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
