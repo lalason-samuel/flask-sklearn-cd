@@ -1,18 +1,80 @@
-# Starter pipeline
+# Starter pipeline    
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
-
 trigger:
-- main
+- master
 
 pool: myAgentPool
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  # Azure Resource Manager connection created during pipeline creation
+  azureServiceConnectionId: 'c9f1e8cb-24a3-405b-9046-bf2b34125d0c'
+  
+  
+  # Web app name
+  webAppName: 'flasksklearnbysami'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  # Environment name
+  environmentName: 'flask-ml-service'
+
+  # Project root folder. Point to the folder containing manage.py file.
+  projectRoot: $(System.DefaultWorkingDirectory)
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: BuildJob
+    pool: myAgentPool
+    steps:
+    - script: echo Hello, world!
+      displayName: 'Run a one-line script'
+
+    - script: |
+        echo Add other tasks to build, test, and deploy your project.
+        echo See https://aka.ms/yaml
+      displayName: 'Run a multi-line script'
+    
+    - script: |
+        export PATH=$HOME/.local/bin:$PATH
+        make install
+      workingDirectory: $(projectRoot)
+      displayName: 'myStep 1 - Install dependance'
+    
+    - task: ArchiveFiles@2
+      displayName: 'myStep 4 - Archive files'
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
+
+    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      displayName: 'myStep 5 - Upload package'
+      artifact: drop
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:
+  - deployment: DeployJob
+    pool: myAgentPool
+    environment: '$(environmentName)'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: 'current'
+              artifact: 'drop'
+              path: '$(Pipeline.Workspace)'
+
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: myserviceconnexion
+              appType: webAppLinux
+              appName: $(webAppName)
+              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
