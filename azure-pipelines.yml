@@ -32,9 +32,22 @@ stages:
       displayName: 'Run a one-line script'
 
     - script: |
-        echo Add other tasks to build, test, and deploy your project.
-        echo See https://aka.ms/yaml
-      displayName: 'Run a multi-line script'
+        sudo apt-get update
+        sudo apt update
+        sudo apt install software-properties-common
+        sudo add-apt-repository ppa:deadsnakes/ppa
+        # Check if the VM has Python installed already. 
+        # Otherwise, use these commands to install Python
+        sudo apt-get install python3
+        sudo apt-get install python3-venv
+        sudo apt-get install python3-pip
+        python3 --version
+        pip --version 
+        # Important tools for the Pipeline build steps
+        sudo apt-get install python3-distutils
+        sudo apt-get -y install zip
+        sudo apt-get -y install make
+      displayName: 'Run all script for the agentPool'
     
     - script: |
         export PATH=$HOME/.local/bin:$PATH
