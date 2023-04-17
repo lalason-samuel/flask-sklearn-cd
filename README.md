@@ -12,7 +12,8 @@ Before you deploy the infrastructure, you will need to:
 * Deploying the App with Azure Pipelines
 
 # Project Plan
-[A link to a Trello board for the project](https://trello.com/invite/b/wbrvZFhJ/ATTI80aceba5e4e85513d2f1211ecbde8fe33B171EC7/azure-app-service)
+* [A link to a Trello board for the project](https://trello.com/b/wbrvZFhJ/azure-app-service)
+* I used this [spreadsheet](project-management.xlsx) to plan the preparation and deployment with a target date and yearly plan.
 
 # Instructions
 
