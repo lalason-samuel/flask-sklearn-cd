@@ -2,21 +2,16 @@
 
 # Overview
 
-<TODO: complete this with an overview of your project>
 In this project, you will involve setting up Azure Pipelines to deploy the Flask starter code to azure App service.
 
 # Getting Started
 Before you deploy the infrastructure, you will need to:
+* Azure & Github Account
 * Clone the repository
 * Creating a Azure App service
 * Deploying the App with Azure Pipelines
 
 # Project Plan
-<TODO: Project Plan
-
-* A link to a Trello board for the project
-* A link to a spreadsheet that includes the original and final project plan>
-
 [A link to a Trello board for the project](https://trello.com/invite/b/wbrvZFhJ/ATTI80aceba5e4e85513d2f1211ecbde8fe33B171EC7/azure-app-service)
 
 # Instructions
@@ -207,7 +202,6 @@ variables:
   # Azure Resource Manager connection created during pipeline creation
   azureServiceConnectionId: 'c9f1e8cb-24a3-405b-9046-bf2b34125d0c'
   
-  
   # Web app name
   webAppName: 'flasksklearnbysami'
 
@@ -276,3 +270,27 @@ stages:
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
 ```
 ![](img/pipeline_done.png)
+
+## Load testing
+We can use locust to do a load test against our application. In this example we will do a load test against the app running locally rather than in Azure.
+
+Install locust:
+``` bash
+pip install locust
+``` 
+Start locust:
+``` bash
+locust
+``` 
+Start Swarming:
+``` bash
+locust --headless --users 10 --spawn-rate 1 -H https://flaskdemobysami.azurewebsites.net/
+``` 
+![](img/locust_test.png)
+
+# Enhancements
+Currently, the only branch available on GitHub should be broken down into several branches to allow a first phase of testing and deployment in a dedicated environment. If successful, the changes can then be merged into the production branch and deployed in the final environment.
+
+# Demo 
+Screencast on Youtube
+https://www.youtube.com/watch?v=PNjYhejWQr8
