@@ -13,7 +13,7 @@ variables:
   
   
   # Web app name
-  webAppName: 'flasksklearnbysami'
+  webAppName: 'samisamisami2411'
 
   # Environment name
   environmentName: 'flask-ml-service'
